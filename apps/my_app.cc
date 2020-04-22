@@ -19,36 +19,71 @@
 #include <cmath>
 #include <string>
 #include "cinder/Rand.h"
+#include "mylibrary/racket.h"
+#include <choreograph/Choreograph.h>
+#include <choreograph/Timeline.h>
+
+
+
+namespace myapp  {
 
 using namespace ci;
 using namespace ci::app;
 using namespace std;
-
-namespace myapp {
-
+using namespace mylibrary;
 using cinder::app::KeyEvent;
+using namespace choreograph;
 
 MyApp::MyApp() {
-
-//    // initialize opengl (via glut)
-//    glutInit(&argc, argv);
-//    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-//    glutInitWindowSize(width, height);
-//    glutCreateWindow("noobtuts.com Pong");
-//
-//    // start the whole thing
-//    glutMainLoop();
-   // return 0;
 
 }
 
 
 void MyApp::setup() {
   // cout<< "Hello World"<<endl;
+  left_racket.init(10.0f, 400.0f);
+  right_racket.init(800 - kRacket_width - 10.0f, 400.0f);
 
+  // Create a procedural phrase that moves vertically on a sine wave.
+  // Procedural phrases can evaluate any function you like.
+  PhraseRef<vec2> bounce = makeProcedure<vec2>( 2.0, [] ( Time t, Time duration ) {
+    return vec2( 0, sin( easeInOutQuad(t) * 6 * M_PI ) * 100.0f );
+  } );
+
+  // Create a ramp phrase from the left to the right side of the window.
+  float w = (float)app::getWindowWidth();
+  float x1 = w * 0.08f;
+  float x2 = w - x1;
+  PhraseRef<vec2> slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f, EaseInOutCubic() );
+
+  // Combine the slide and bounce phrases using an AccumulatePhrase.
+  // By default, the accumulation operation sums all the phrase values with an initial value.
+  float center_y = app::getWindowHeight() / 2.0f;
+  PhraseRef<vec2> bounce_and_slide = makeAccumulator( vec2( 0, center_y ), bounce, slide );
+
+  // Provide an explicit combine function.
+  // In this case, we subtract each value from the initial value.
+  PhraseRef<vec2> bounce_and_slide_negative = makeAccumulator( vec2( w, center_y ), bounce, slide, [] (const vec2 &a, const vec2 &b) {
+    return a - b;
+  } );
+
+  // Apply our Sequences to Outputs.
+  _timeline.apply( &_position_a, bounce_and_slide );
+  _timeline.apply( &_position_b, bounce_and_slide_negative );
+  _timeline.apply( &_reference_bounce, bounce );
+  _timeline.apply( &_reference_slide, slide );
+
+  // Place Outputs at initial sequence values.
+  _timeline.jumpTo( 0 );
+
+  _timer.start();
 }
 
-void MyApp::update() { }
+void MyApp::update() {
+  Time dt = (Time)_timer.getSeconds();
+  _timer.start();
+  _timeline.step( dt );
+}
 
 void MyApp::draw() {
 
@@ -59,10 +94,65 @@ void MyApp::draw() {
   gl::color( Color( 1, 0, 0 ) ); // red
   gl::drawSolidCircle( center + vec2( -r, r ), r );
 
-  drawRect(racket_left_x, racket_left_y, racket_width,  racket_height);
-  drawRect(racket_right_x, racket_right_y,  racket_width,  racket_height);
+  left_racket.draw();
+  right_racket.draw();
+
+  gl::ScopedColor color( Color( CM_HSV, 0.72f, 1.0f, 1.0f ) );
+  gl::drawSolidCircle( _position_a, 30.0f );
+
+  gl::color( Color( CM_HSV, 0.96f, 1.0f, 1.0f ) );
+  gl::drawSolidCircle( _position_b, 30.0f );
+
+  // References are translated for visibility.
+  float y = app::getWindowHeight() * 0.2f;
+  gl::color( Color( CM_HSV, 0.15f, 1.0f, 1.0f ) );
+
+  gl::drawStrokedCircle( _reference_bounce() + vec2( app::getWindowWidth() * 0.08f, y ), 4.0f );
+  gl::drawStrokedCircle( _reference_slide() + vec2( 0, y ), 4.0f );
+
+
 }
 
-void MyApp::keyDown(KeyEvent event) { }
+void MyApp::keyDown(KeyEvent event) {
+//    switch (event.getCode()) {
+//      case KeyEvent::KEY_UP:
+//     {
+//        right_racket.SetDirection(Direction::kLeft);
+//        break;
+//      }
+//      case KeyEvent::KEY_DOWN:
+//      case KeyEvent::KEY_j:
+//      case KeyEvent::KEY_s: {
+//        engine_.SetDirection(Direction::kRight);
+//        break;
+//      }
+//      case KeyEvent::KEY_LEFT:
+//      case KeyEvent::KEY_h:
+//      case KeyEvent::KEY_a: {
+//        engine_.SetDirection(Direction::kUp);
+//        break;
+//      }
+//      case KeyEvent::KEY_RIGHT:
+//      case KeyEvent::KEY_l:
+//      case KeyEvent::KEY_d: {
+//        engine_.SetDirection(Direction::kDown);
+//        break;
+//      }
+//      case KeyEvent::KEY_p: {
+//        paused_ = !paused_;
+//
+//        if (paused_) {
+//          last_pause_time_ = system_clock::now();
+//        } else {
+//          last_intact_time_ += system_clock::now() - last_pause_time_;
+//        }
+//        break;
+//      }
+//      case KeyEvent::KEY_r: {
+//        // ResetGame();
+//        break;
+//      }
+//    }
+}
 
 }  // namespace myapp
