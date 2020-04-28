@@ -3,7 +3,6 @@
 #define CATCH_CONFIG_MAIN
 
 #include <cinder/Rand.h>
-#include <mylibrary/util.h>
 #include <string>
 #include <iostream>
 #include <sstream>

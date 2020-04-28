@@ -12,6 +12,7 @@
 #include <choreograph/Timeline.h>
 
 #include "mylibrary/racket.h"
+#include "mylibrary/ball.h"
 
 using namespace mylibrary;
 using namespace choreograph;
@@ -32,7 +33,10 @@ class MyApp : public cinder::app::App {
 
   Racket left_racket;
   Racket right_racket;
+  Ball ball;
   bool paused;
+  const int kScreen_width = 800;
+  const int kScreen_height = 800;
 
 
   choreograph::Output<ci::vec2> _position_a;
