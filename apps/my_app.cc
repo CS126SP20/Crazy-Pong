@@ -23,8 +23,8 @@
 #include "mylibrary/racket.h"
 #include <choreograph/Choreograph.h>
 #include <choreograph/Timeline.h>
-
-
+#include <gflags/gflags_declare.h>
+#include <gflags/gflags.h>>
 
 namespace myapp  {
 
@@ -35,16 +35,21 @@ using namespace mylibrary;
 using cinder::app::KeyEvent;
 using namespace choreograph;
 
+DECLARE_bool(crazy);
+DECLARE_uint64(speed);
+DECLARE_string(name);
+
 MyApp::MyApp() {
+  ball.setSpeed(FLAGS_speed);
 
 }
 
 
 void MyApp::setup() {
-  left_racket.init(1.0f, 400.0f);
-  right_racket.init(800 - kRacket_width - 1.0f, 400.0f);
+  left_racket.init(0.0f, 400.0f);
+  right_racket.init(800 - kRacket_width - 0.0f, 400.0f);
   // Ball::init(float ball_x, float ball_y, float ball.getDirX(), float ball.getDirY(), float ball_size, float ball_speed )
-  ball.init(kScreen_height/2, kScreen_width/2, -1.0f, 0.0f, 30.0f, 2.0f);
+  ball.init(kScreen_height/2, kScreen_width/2, -1.0f, 0.0f, 30.0f, FLAGS_speed);
   paused = false;
 
 //  // Create a procedural phrase that moves vertically on a sine wave.

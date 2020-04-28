@@ -14,12 +14,12 @@ class Ball {
   float y;
   float dir_x;
   float dir_y;
-  float speed;
+  int speed;
 
   void vec2_norm();
  public:
   Ball();
-  void init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, float ball_speed);
+  void init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, int ball_speed);
   void draw();
   void move();
   float getSize() const;
@@ -32,4 +32,5 @@ class Ball {
   void setDirY(float dirY);
   void setX(float x);
   void setY(float y);
+  void setSpeed(int speed);
 };

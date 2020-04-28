@@ -14,7 +14,7 @@ Ball::Ball() {
   
 }
 
-void Ball::init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, float ball_speed ) {
+void Ball::init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, int ball_speed ) {
   // ball
   x = ball_x;
   y = ball_y;
@@ -46,6 +46,7 @@ float Ball::getSize() const { return size; }
 float Ball::getX() const { return x; }
 void Ball::setX(float x) { Ball::x = x; }
 void Ball::setY(float y) { Ball::y = y; }
+void Ball::setSpeed(int speed) { Ball::speed = speed; }
 void Ball::setDirX(float dirX) { dir_x = dirX; }
 void Ball::setDirY(float dirY) { dir_y = dirY; }
 float Ball::getY() const { return y; }

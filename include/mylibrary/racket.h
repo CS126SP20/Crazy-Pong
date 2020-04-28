@@ -13,8 +13,8 @@ using namespace cinder;
 namespace  mylibrary {
 
 const int kRacket_width = 10;
-const int kRacket_height = 80;
-const int kRacket_speed = 10;
+const int kRacket_height = 100;
+const int kRacket_speed = 20;
 
 class Racket  {
   //racket position

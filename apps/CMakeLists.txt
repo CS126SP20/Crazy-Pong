@@ -12,8 +12,8 @@ ci_make_app(
     APP_NAME    cinder-myapp
     CINDER_PATH ${CINDER_PATH}
     SOURCES     ${SOURCE_LIST}
-    LIBRARIES   mylibrary
-    BLOCKS
+    LIBRARIES   mylibrary gflags sqlite-modern-cpp sqlite3
+    BLOCKS      Choreograph
 )
 
 target_compile_features(cinder-myapp PRIVATE cxx_std_14)
