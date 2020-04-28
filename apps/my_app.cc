@@ -40,9 +40,9 @@ MyApp::MyApp() {
 
 
 void MyApp::setup() {
-  // cout<< "Hello World"<<endl;
   left_racket.init(10.0f, 400.0f);
   right_racket.init(800 - kRacket_width - 10.0f, 400.0f);
+  paused = false;
 
   // Create a procedural phrase that moves vertically on a sine wave.
   // Procedural phrases can evaluate any function you like.
@@ -114,45 +114,42 @@ void MyApp::draw() {
 }
 
 void MyApp::keyDown(KeyEvent event) {
-//    switch (event.getCode()) {
-//      case KeyEvent::KEY_UP:
-//     {
-//        right_racket.SetDirection(Direction::kLeft);
-//        break;
-//      }
-//      case KeyEvent::KEY_DOWN:
-//      case KeyEvent::KEY_j:
-//      case KeyEvent::KEY_s: {
-//        engine_.SetDirection(Direction::kRight);
-//        break;
-//      }
-//      case KeyEvent::KEY_LEFT:
-//      case KeyEvent::KEY_h:
-//      case KeyEvent::KEY_a: {
-//        engine_.SetDirection(Direction::kUp);
-//        break;
-//      }
-//      case KeyEvent::KEY_RIGHT:
-//      case KeyEvent::KEY_l:
-//      case KeyEvent::KEY_d: {
-//        engine_.SetDirection(Direction::kDown);
-//        break;
-//      }
-//      case KeyEvent::KEY_p: {
-//        paused_ = !paused_;
+    switch (event.getCode()) {
+      case KeyEvent::KEY_UP:
+     {
+        right_racket.move_up();
+        break;
+      }
+      case KeyEvent::KEY_DOWN:
+      {
+        right_racket.move_down();
+        break;
+      }
+      case KeyEvent::KEY_w:
+        {
+          left_racket.move_up();
+        break;
+      }
+      case KeyEvent::KEY_s:
+        {
+          left_racket.move_down();
+        break;
+      }
+      case KeyEvent::KEY_p: {
+//        paused = !paused;
 //
-//        if (paused_) {
-//          last_pause_time_ = system_clock::now();
+//        if (paused) {
+//          last_pause_time  = system_clock::now();
 //        } else {
 //          last_intact_time_ += system_clock::now() - last_pause_time_;
 //        }
-//        break;
-//      }
-//      case KeyEvent::KEY_r: {
-//        // ResetGame();
-//        break;
-//      }
-//    }
+        break;
+      }
+      case KeyEvent::KEY_r: {
+        // ResetGame();
+        break;
+      }
+    }
 }
 
 }  // namespace myapp

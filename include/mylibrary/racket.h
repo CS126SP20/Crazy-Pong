@@ -14,7 +14,7 @@ namespace  mylibrary {
 
 const int kRacket_width = 10;
 const int kRacket_height = 80;
-const int kRacket_speed = 3;
+const int kRacket_speed = 10;
 
 class Racket  {
   //racket position
@@ -22,21 +22,12 @@ class Racket  {
   float y;
 
  public:
-  Racket() { x = 0.0f; y = 0.0f; }
-  Racket( float a, float b) { x = a; y = b; }
-
-  void init( float a, float b) { x = a; y = b; }
-
-  void draw() {
-
-    cinder::gl::color(Color(0, 1, 0));
-    cinder::gl::drawSolidRect(Rectf(x,
-                                    y,
-                                    x + kRacket_width,
-                                    y + kRacket_height));
-  }
+  Racket();
+  void init( float a, float b);
+  void draw();
+  void move_up();
+  void move_down();
 };
-
 }  // namespace mylibrary
 
 #endif  // FINALPROJECT_RACKET_H

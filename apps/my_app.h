@@ -32,6 +32,7 @@ class MyApp : public cinder::app::App {
 
   Racket left_racket;
   Racket right_racket;
+  bool paused;
 
 
   choreograph::Output<ci::vec2> _position_a;
