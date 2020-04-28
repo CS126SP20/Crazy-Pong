@@ -40,9 +40,18 @@ void Ball::move() {
   y += dir_y * speed;
 
   // make sure that length of dir stays at 1
-  vec2_norm();
+//  vec2_norm();
 }
-
+float Ball::getSize() const { return size; }
+float Ball::getX() const { return x; }
+void Ball::setX(float x) { Ball::x = x; }
+void Ball::setY(float y) { Ball::y = y; }
+void Ball::setDirX(float dirX) { dir_x = dirX; }
+void Ball::setDirY(float dirY) { dir_y = dirY; }
+float Ball::getY() const { return y; }
+float Ball::getDirX() const { return dir_x; }
+float Ball::getDirY() const { return dir_y; }
+float Ball::getSpeed() const { return speed; }
 
 void Ball::vec2_norm() {
   // sets a vectors length to 1 (which means that x + y == 1)

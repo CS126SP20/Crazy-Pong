@@ -20,6 +20,7 @@ class Racket  {
   //racket position
   float x;
   float y;
+  int score;
 
  public:
   Racket();
@@ -27,6 +28,10 @@ class Racket  {
   void draw();
   void move_up();
   void move_down();
+  float getX() const;
+  float getY() const;
+  int getScore() const;
+  void setScore(int score);
 };
 }  // namespace mylibrary
 

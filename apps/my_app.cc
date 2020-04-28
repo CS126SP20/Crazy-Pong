@@ -12,6 +12,7 @@
 #include <cinder/audio/audio.h>
 #include <cinder/audio/Voice.h>
 #include <cinder/gl/draw.h>
+#include <math.h>
 
 
 #include <algorithm>
@@ -40,9 +41,9 @@ MyApp::MyApp() {
 
 
 void MyApp::setup() {
-  left_racket.init(10.0f, 400.0f);
-  right_racket.init(800 - kRacket_width - 10.0f, 400.0f);
-  // Ball::init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, float ball_speed )
+  left_racket.init(1.0f, 400.0f);
+  right_racket.init(800 - kRacket_width - 1.0f, 400.0f);
+  // Ball::init(float ball_x, float ball_y, float ball.getDirX(), float ball.getDirY(), float ball_size, float ball_speed )
   ball.init(kScreen_height/2, kScreen_width/2, -1.0f, 0.0f, 30.0f, 2.0f);
   paused = false;
 
@@ -84,11 +85,62 @@ void MyApp::setup() {
 
 void MyApp::update() {
   // Time dt = (Time)_timer.getSeconds();
-
-
-
   // _timer.start();
   // _timeline.step( dt );
+
+  ball.move();
+  // hit by left racket?
+  if (ball.getX() < left_racket.getX() + mylibrary::kRacket_width &&
+      ball.getX() > left_racket.getX() &&
+      ball.getY() < left_racket.getY() + mylibrary::kRacket_height &&
+      ball.getY() > left_racket.getY()) {
+    // set fly direction depending on where it hit the racket
+    // (t is 0.5 if hit at top, 0 at center, -0.5 at bottom)
+    float t = ((ball.getY() - left_racket.getY()) / mylibrary::kRacket_height) - 0.5f;
+    ball.setDirX(fabs(ball.getDirX())); // force it to be positive
+    ball.setDirY(t);
+  }
+
+  // hit by right racket?
+  if (ball.getX() > right_racket.getX() &&
+      ball.getX() < right_racket.getX() + mylibrary::kRacket_width &&
+      ball.getY() < right_racket.getY() + mylibrary::kRacket_height &&
+      ball.getY() > right_racket.getY()) {
+    // set fly direction depending on where it hit the racket
+    // (t is 0.5 if hit at top, 0 at center, -0.5 at bottom)
+    float t = ((ball.getY() - right_racket.getY()) / mylibrary::kRacket_height) - 0.5f;
+    ball.setDirX(-fabs(ball.getDirX())); // force it to be negative
+    ball.setDirY(t);
+  }
+
+  // hit left wall?
+  if (ball.getX() < 0) {
+    right_racket.setScore(right_racket.getScore() + 1);
+    ball.setX(app::getWindowWidth() / 2);
+    ball.setY(app::getWindowHeight() / 2);
+    ball.setDirX(fabs(ball.getDirX())); // force it to be positive
+    ball.setDirY(0);
+  }
+
+  // hit right wall?
+  if (ball.getX() > app::getWindowWidth()) {
+    left_racket.setScore(left_racket.getScore() + 1);
+    ball.setX(app::getWindowWidth() / 2);
+    ball.setY(app::getWindowHeight() / 2);
+    ball.setDirX(-fabs(ball.getDirX())); // force it to be negative
+    ball.setDirY(0);
+  }
+
+  // hit top wall?
+  if (ball.getY() > app::getWindowHeight()) {
+    ball.setDirY(-fabs(ball.getDirY())); // force it to be negative
+  }
+
+  // hit bottom wall?
+  if (ball.getY() < 0) {
+    ball.setDirY(fabs(ball.getDirY())); // force it to be positive
+  }
+  
 }
 
 void MyApp::draw() {
