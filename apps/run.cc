@@ -21,8 +21,8 @@ const int kSamples = 8;
 const int kWidth = 800;
 const int kHeight = 800;
 
-DEFINE_uint32(crazy, false, "mode of the game");
-DEFINE_uint64(speed, 50, "the speed (delay) of the game");
+DEFINE_bool(crazy, false, "mode of the game");
+DEFINE_uint64(speed, 50, "the speed of the ball");
 DEFINE_string(name, "riya", "the name of the player");
 
 void ParseArgs(vector<string>* args) {

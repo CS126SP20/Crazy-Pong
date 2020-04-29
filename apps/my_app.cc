@@ -26,6 +26,8 @@
 #include <gflags/gflags_declare.h>
 #include <gflags/gflags.h>>
 
+const char kNormalFont[] = "Arial";
+
 namespace myapp  {
 
 using namespace ci;
@@ -46,55 +48,71 @@ MyApp::MyApp() {
 
 
 void MyApp::setup() {
+  paused = false;
+  cinder::gl::enableDepthWrite();
+  cinder::gl::enableDepthRead();
   left_racket.init(0.0f, 400.0f);
   right_racket.init(800 - kRacket_width - 0.0f, 400.0f);
-  // Ball::init(float ball_x, float ball_y, float ball.getDirX(), float ball.getDirY(), float ball_size, float ball_speed )
-  ball.init(kScreen_height/2, kScreen_width/2, -1.0f, 0.0f, 30.0f, FLAGS_speed);
-  paused = false;
+  ball.init(kScreen_height/2, kScreen_width/2, -1.0f,
+      0.0f, 30.0f, FLAGS_speed);
 
-//  // Create a procedural phrase that moves vertically on a sine wave.
-//  // Procedural phrases can evaluate any function you like.
-//  PhraseRef<vec2> bounce = makeProcedure<vec2>( 2.0, [] ( Time t, Time duration ) {
-//    // return vec2( 0, sin( easeInOutQuad(t) * 6 * M_PI ) * 100.0f );
-//    return vec2( 0,  100.0f );
-//  } );
-//
-//  // Create a ramp phrase from the left to the right side of the window.
-//  float w = (float)app::getWindowWidth();
-//  float x1 = w * 0.08f;
-//  float x2 = w - x1;
-//  PhraseRef<vec2> slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f, EaseInOutCubic() );
-//
-//  // Combine the slide and bounce phrases using an AccumulatePhrase.
-//  // By default, the accumulation operation sums all the phrase values with an initial value.
-//  float center_y = app::getWindowHeight() / 2.0f;
-//  PhraseRef<vec2> bounce_and_slide = makeAccumulator( vec2( 0, center_y ), bounce, slide );
-//
-//  // Provide an explicit combine function.
-//  // In this case, we subtract each value from the initial value.
-//  PhraseRef<vec2> bounce_and_slide_negative = makeAccumulator( vec2( w, center_y ), bounce, slide, [] (const vec2 &a, const vec2 &b) {
-//    return a - b;
-//  } );
+  if (FLAGS_crazy) {
+    // Create a procedural phrase that moves vertically on a sine wave.
+    // Procedural phrases can evaluate any function you like.
+    PhraseRef<vec2> bounce = makeProcedure<vec2>( 2.0, [] ( Time t, Time duration ) {
+       return vec2( 0, sin( easeInOutQuad(t) * 6 * M_PI ) * 100.0f );
+      //return vec2( 0,  100.0f );
+    } );
 
-//  // Apply our Sequences to Outputs.
-//  _timeline.apply( &_position_a, bounce_and_slide );
-//  _timeline.apply( &_position_b, bounce_and_slide_negative );
-//  _timeline.apply( &_reference_bounce, bounce );
-//  _timeline.apply( &_reference_slide, slide );
-//
-//  // Place Outputs at initial sequence values.
-//  _timeline.jumpTo( 0 );
-//
+
+
+    // Create a ramp phrase from the left to the right side of the window.
+    float w = (float)app::getWindowWidth();
+    float x1 = w * 0.08f;
+    float x2 = w - x1;
+    PhraseRef<vec2> slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f, EaseInOutCubic() );
+
+
+//    Output<vec2>  pingPongTarget;
+//    _timeline.apply( &pingPongTarget, slide )
+//        .finishFn( [&m = *pingPongTarget.inputPtr()] {
+//          // reverse Motion direction on finish.
+//          m.setPlaybackSpeed( m.getPlaybackSpeed() * -1 );
+//          // Start each cycle from "zero" to keep in sync with loopTarget timing.
+//          m.resetTime();
+//        } );
+
+    // Combine the slide and bounce phrases using an AccumulatePhrase.
+    // By default, the accumulation operation sums all the phrase values with an initial value.
+    float center_y = app::getWindowHeight() / 2.0f;
+    PhraseRef<vec2> bounce_and_slide = makeAccumulator( vec2( 0, center_y ), bounce, slide );
+
+    // Provide an explicit combine function.
+    // In this case, we subtract each value from the initial value.
+    PhraseRef<vec2> bounce_and_slide_negative = makeAccumulator( vec2( w, center_y ), bounce, slide, [] (const vec2 &a, const vec2 &b) {
+      return a - b;
+    } );
+
+    // Apply our Sequences to Outputs.
+    _timeline.apply( &_position_a, bounce_and_slide );
+    _timeline.apply( &_position_b, bounce_and_slide_negative );
+    _timeline.apply( &_reference_bounce, bounce );
+    _timeline.apply( &_reference_slide, slide );
+
+    // Place Outputs at initial sequence values.
+    _timeline.jumpTo( 0 );
+  }
     _timer.start();
 }
 
 void MyApp::update() {
-  // Time dt = (Time)_timer.getSeconds();
-  // _timer.start();
-  // _timeline.step( dt );
-
-  ball.move();
+  if (FLAGS_crazy) {
+     Time dt = (Time)_timer.getSeconds();
+   _timer.start();
+     _timeline.step( dt );
+  }
   // hit by left racket?
+
   if (ball.getX() < left_racket.getX() + mylibrary::kRacket_width &&
       ball.getX() > left_racket.getX() &&
       ball.getY() < left_racket.getY() + mylibrary::kRacket_height &&
@@ -113,7 +131,8 @@ void MyApp::update() {
       ball.getY() > right_racket.getY()) {
     // set fly direction depending on where it hit the racket
     // (t is 0.5 if hit at top, 0 at center, -0.5 at bottom)
-    float t = ((ball.getY() - right_racket.getY()) / mylibrary::kRacket_height) - 0.5f;
+    float t = ((ball.getY() - right_racket.getY()) /
+        mylibrary::kRacket_height) - 0.5f;
     ball.setDirX(-fabs(ball.getDirX())); // force it to be negative
     ball.setDirY(t);
   }
@@ -145,7 +164,8 @@ void MyApp::update() {
   if (ball.getY() < 0) {
     ball.setDirY(fabs(ball.getDirY())); // force it to be positive
   }
-  
+
+  ball.move();
 }
 
 void MyApp::draw() {
@@ -161,19 +181,29 @@ void MyApp::draw() {
   left_racket.draw();
   right_racket.draw();
   ball.draw();
+  const cinder::vec2 center = getWindowCenter();
+  const cinder::ivec2 size = {200, 200};
+  const Color colors = Color::white();
 
-//  gl::ScopedColor color( Color( CM_HSV, 0.72f, 1.0f, 1.0f ) );
-//  gl::drawSolidCircle( _position_a, 30.0f );
 
-//  gl::color( Color( CM_HSV, 0.96f, 1.0f, 1.0f ) );
-//  gl::drawSolidCircle( _position_b, 30.0f );
+  std::stringstream ss;
+  ss<< "Score = " << left_racket.getScore() << ":" << right_racket.getScore();
 
-  // References are translated for visibility.
+  PrintText(ss.str(), colors, size, {center.x, center.y});
+   //PrintText(right_text, color, size, {center.x + 20, center.y});
+
+  gl::ScopedColor color( Color( CM_HSV, 0.72f, 1.0f, 1.0f ) );
+  gl::drawSolidCircle( _position_a, 30.0f );
+
+  gl::color( Color( CM_HSV, 0.96f, 1.0f, 1.0f ) );
+  gl::drawSolidCircle( _position_b, 30.0f );
+
+ //  References are translated for visibility.
   float y = app::getWindowHeight() * 0.2f;
   gl::color( Color( CM_HSV, 0.15f, 1.0f, 1.0f ) );
 
-//  gl::drawStrokedCircle( _reference_bounce() + vec2( app::getWindowWidth() * 0.08f, y ), 4.0f );
-//  gl::drawStrokedCircle( _reference_slide() + vec2( 0, y ), 4.0f );
+  gl::drawStrokedCircle( _reference_bounce() + vec2( app::getWindowWidth() * 0.08f, y ), 4.0f );
+  gl::drawStrokedCircle( _reference_slide() + vec2( 0, y ), 4.0f );
 
 
 }
@@ -216,5 +246,26 @@ void MyApp::keyDown(KeyEvent event) {
       }
     }
 }
+
+template <typename C>
+void MyApp::PrintText(const string& text, const C& color, const cinder::ivec2& size,
+               const cinder::vec2& loc) {
+  cinder::gl::color(color);
+
+  auto box = TextBox()
+      .alignment(TextBox::CENTER)
+      .font(cinder::Font(kNormalFont, 30))
+      .size(size)
+      .color(color)
+      .backgroundColor(ColorA(0, 0, 1, 0))
+      .text(text);
+
+  const auto box_size = box.getSize();
+  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const auto surface = box.render();
+  const auto texture = cinder::gl::Texture::create(surface);
+  cinder::gl::draw(texture, locp);
+}
+
 
 }  // namespace myapp
