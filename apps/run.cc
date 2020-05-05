@@ -5,15 +5,13 @@
 #include <ctime>
 #include <cinder/app/RendererGl.h>
 #include <gflags/gflags.h>
-
+#include "cinder/Timeline.h"
 #include "my_app.h"
-
 
 using cinder::app::App;
 using cinder::app::RendererGl;
 using std::string;
 using std::vector;
-
 
 namespace myapp {
 
@@ -27,7 +25,7 @@ DEFINE_string(name, "riya", "the name of the player");
 
 void ParseArgs(vector<string>* args) {
   gflags::SetUsageMessage(
-      "Play a game of Snake. Pass --helpshort for options.");
+      "Play a game of Crazy Pong! Pass --helpshort for options.");
   int argc = static_cast<int>(args->size());
 
   vector<char*> argvs;
@@ -39,16 +37,15 @@ void ParseArgs(vector<string>* args) {
   gflags::ParseCommandLineFlags(&argc, &argv, true);
 }
 
-
 void SetUp(App::Settings* settings) {
   vector<string> args = settings->getCommandLineArgs();
   ParseArgs(&args);
   settings->setWindowSize(kWidth, kHeight);
   settings->setTitle("Crazy Pong!");
+
 }
 
 }  // namespace myapp
-
 
 // This is a macro that runs the application.
 CINDER_APP(myapp::MyApp,

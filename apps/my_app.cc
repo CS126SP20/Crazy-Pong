@@ -43,7 +43,6 @@ DECLARE_string(name);
 
 MyApp::MyApp() {
   ball.setSpeed(FLAGS_speed);
-
 }
 
 
@@ -55,6 +54,10 @@ void MyApp::setup() {
   right_racket.init(800 - kRacket_width - 0.0f, 400.0f);
   ball.init(kScreen_height/2, kScreen_width/2, -1.0f,
       0.0f, 30.0f, FLAGS_speed);
+
+//  Anim<float> radius;
+//  radius = 0.0f;
+//  cinder::app::timeline().apply( &radius, 10.0f, 1.5f, cinder::EaseOutCubic());
 
   if (FLAGS_crazy) {
     // Create a procedural phrase that moves vertically on a sine wave.
@@ -70,7 +73,7 @@ void MyApp::setup() {
     float w = (float)app::getWindowWidth();
     float x1 = w * 0.08f;
     float x2 = w - x1;
-    PhraseRef<vec2> slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f, EaseInOutCubic() );
+    PhraseRef<vec2> slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f, choreograph::EaseInOutCubic() );
 
 
 //    Output<vec2>  pingPongTarget;
