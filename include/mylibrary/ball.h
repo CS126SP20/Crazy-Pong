@@ -20,12 +20,12 @@ class Ball {
   float dir_y;
   int speed;
 
-  void vec2_norm();
  public:
   Ball();
-  void init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, int ball_speed);
-  void draw();
-  void move();
+  void Init(float ball_x, float ball_y, float ball_dir_x,
+      float ball_dir_y, float ball_size, int ball_speed);
+  void Draw();
+  void Move();
   float getSize() const;
   float getX() const;
   float getY() const;

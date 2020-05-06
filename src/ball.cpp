@@ -10,8 +10,7 @@ Ball::Ball() {
   
 }
 
-void Ball::init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, int ball_speed ) {
-  // ball
+void Ball::Init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, int ball_speed ) {
   x = ball_x;
   y = ball_y;
   dir_x = ball_dir_x;
@@ -20,23 +19,15 @@ void Ball::init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, 
   speed = ball_speed;
 }
 
-void Ball::draw() {
-
+void Ball::Draw() {
   vec2 center(x,y);
-  //std::cout<<center<<std::endl;
-  //gl::ScopedColor color( Color( CM_HSV, 0.72f, 1.0f, 1.0f ) );
-  // gl::color(Color(1, 0, 0));
   gl::color( Color( CM_HSV, 0.96f, 1.0f, 1.0f ) );
   gl::drawSolidCircle( center, size);
 }
 
-void Ball::move() {
-  // fly a bit
+void Ball::Move() {
   x += dir_x * speed;
   y += dir_y * speed;
-
-  // make sure that length of dir stays at 1
-//  vec2_norm();
 }
 float Ball::getSize() const { return size; }
 float Ball::getX() const { return x; }
@@ -50,14 +41,5 @@ float Ball::getDirX() const { return dir_x; }
 float Ball::getDirY() const { return dir_y; }
 float Ball::getSpeed() const { return speed; }
 
-void Ball::vec2_norm() {
-  // sets a vectors length to 1 (which means that x + y == 1)
-  float length = sqrt((x * x) + (y * y));
-  if (length != 0.0f) {
-    length = 1.0f / length;
-    x *= length;
-    y *= length;
-  }
-}
 
 

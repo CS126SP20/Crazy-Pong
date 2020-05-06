@@ -24,10 +24,10 @@ class Racket  {
 
  public:
   Racket();
-  void init( float a, float b);
-  void draw();
-  void move_up();
-  void move_down();
+  void Init( float a, float b);
+  void Draw();
+  void MoveUp();
+  void MoveDown();
   float getX() const;
   float getY() const;
   int getScore() const;

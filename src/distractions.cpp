@@ -15,19 +15,22 @@ void Distraction::init(int width, int height) {
   } );
 
   // Create a ramp phrase from the left to the right side of the window.
-
   float x1 = width * 0.02f;
   float x2 = width - x1;
-  slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f, choreograph::EaseInOutCubic() );
+  slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f,
+      choreograph::EaseInOutCubic() );
 
   // Combine the slide and bounce phrases using an AccumulatePhrase.
-  // By default, the accumulation operation sums all the phrase values with an initial value.
+  // By default, the accumulation operation sums all the phrase values
+  // with an initial value.
   float center_y = height / 2.0f;
-  bounce_and_slide = makeAccumulator( vec2( 0, center_y ), bounce, slide );
+  bounce_and_slide = makeAccumulator( vec2( 0, center_y ),
+      bounce, slide);
 
   // Provide an explicit combine function.
   // In this case, we subtract each value from the initial value.
-  bounce_and_slide_negative = makeAccumulator( vec2( width, center_y ), bounce, slide, [] (const vec2 &a, const vec2 &b) {
+  bounce_and_slide_negative = makeAccumulator( vec2(width,
+      center_y), bounce, slide, [] (const vec2 &a, const vec2 &b) {
     return a - b;
   } );
 
@@ -47,16 +50,13 @@ void Distraction::move() {
 
   if (dt > 2.0f) {
     count++;
-    std::cout<<count<<std::endl;
     mytimer.stop();
 
     if (count % 2 == 0) {
       _timeline.jumpTo( 0 );
       _timeline.apply(&_position_a, bounce_and_slide);
-      std::cout<<"here\n";
     } else {
       _timeline.apply(&_position_a, bounce_and_slide_negative);
-      std::cout<<"there\n";
     }
 
     mytimer.start();

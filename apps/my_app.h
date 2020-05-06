@@ -45,9 +45,9 @@ class MyApp : public cinder::app::App {
 
 
  private:
-  bool didBallHitRacket();
+  bool DidBallHitRacket();
 
-  bool didBallHitWall();
+  bool DidBallHitWall();
 
  public:
   Timer               _timer;

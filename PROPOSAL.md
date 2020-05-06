@@ -4,7 +4,7 @@ Author: Riya Gupta
 
 ---
 **GOAL:**
-I want to recreate the game of Ping Pong with a special twist. Instead of obeying the natural laws of physics, the ping pong ball itself will move in an abstract manner when moving towards the other player. This will make the game more interesting!
+I want to recreate the game of Ping Pong with a special twist. There will be an option to play a regular game of ping pong; however, the "crazy" in **Crazy Pong!** will come from several animated distractions. This will make the game more interesting!
 
 **WHY:** 
 
@@ -28,7 +28,7 @@ Week 1:
 
 Week 2:
 * Incorporate abstract movement for ball using Choreograph
-* Create different levels of rigor (easy, medium, hard)
+* Create different levels of rigor 
 
 Week 3:
 * Add any additional tests
@@ -36,4 +36,4 @@ Week 3:
 * Add special effects and music
 
 **STRETCH GOALS:**
-If I were to finish this project early, I would work on adding 3D graphics and a multiplayer version of the game.
+If I were to finish this project early, I would work on adding 3D graphics to the game.

@@ -48,9 +48,9 @@ MyApp::MyApp() {
 void MyApp::setup() {
   cinder::gl::enableDepthWrite();
   cinder::gl::enableDepthRead();
-  left_racket.init(0.0f, 400.0f);
-  right_racket.init(800 - kRacket_width - 0.0f, 400.0f);
-  ball.init(kScreen_height/2, kScreen_width/2, -1.0f,
+  left_racket.Init(0.0f, 400.0f);
+  right_racket.Init(800 - kRacket_width - 0.0f, 400.0f);
+  ball.Init(kScreen_height/2, kScreen_width/2, -1.0f,
       0.0f, 30.0f, FLAGS_speed);
 
   if (FLAGS_crazy) {
@@ -65,12 +65,11 @@ void MyApp::update() {
     _timer.start();
   }
 
-   didBallHitRacket();
+  DidBallHitRacket();
 
-  didBallHitWall();
+  DidBallHitWall();
 
-
-  ball.move();
+  ball.Move();
 }
 
 void MyApp::draw() {
@@ -78,9 +77,9 @@ void MyApp::draw() {
   gl::clear();
   float r = 20;
 
-  left_racket.draw();
-  right_racket.draw();
-  ball.draw();
+  left_racket.Draw();
+  right_racket.Draw();
+  ball.Draw();
   const cinder::vec2 center = getWindowCenter();
   const cinder::ivec2 size = {200, 200};
   const Color colors = Color::white();
@@ -100,22 +99,22 @@ void MyApp::keyDown(KeyEvent event) {
     switch (event.getCode()) {
       case KeyEvent::KEY_UP:
      {
-        right_racket.move_up();
+        right_racket.MoveUp();
         break;
       }
       case KeyEvent::KEY_DOWN:
       {
-        right_racket.move_down();
+        right_racket.MoveDown();
         break;
       }
       case KeyEvent::KEY_w:
         {
-          left_racket.move_up();
+          left_racket.MoveUp();
         break;
       }
       case KeyEvent::KEY_s:
         {
-          left_racket.move_down();
+          left_racket.MoveDown();
         break;
       }
       case KeyEvent::KEY_p: {
@@ -155,7 +154,7 @@ void MyApp::PrintText(const string& text, const C& color, const cinder::ivec2& s
   cinder::gl::draw(texture, locp);
 }
 
-bool MyApp::didBallHitRacket() {
+bool MyApp::DidBallHitRacket() {
   // hit by left racket?
   if (ball.getX() < left_racket.getX() + mylibrary::kRacket_width &&
       ball.getX() > left_racket.getX() &&
@@ -185,7 +184,7 @@ bool MyApp::didBallHitRacket() {
   return false;
 }
 
-bool MyApp::didBallHitWall() {
+bool MyApp::DidBallHitWall() {
   // hit left wall?
   if (ball.getX() < 0) {
     right_racket.setScore(right_racket.getScore() + 1);
