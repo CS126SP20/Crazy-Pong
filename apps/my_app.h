@@ -7,10 +7,9 @@
 #include <cinder/audio/Voice.h>
 #include <cinder/audio/audio.h>
 #include <cinder/gl/gl.h>
-//#include "cinder/Timeline.h"
 #include <choreograph/Output.hpp>
 #include <choreograph/Timeline.h>
-
+#include "mylibrary/distraction.h"
 #include "mylibrary/racket.h"
 #include "mylibrary/ball.h"
 
@@ -34,19 +33,16 @@ class MyApp : public cinder::app::App {
   Racket left_racket;
   Racket right_racket;
   Ball ball;
+  Distraction distraction;
   bool paused;
   const int kScreen_width = 800;
   const int kScreen_height = 800;
 
 
-  choreograph::Output<ci::vec2> _position_a;
-  choreograph::Output<ci::vec2>  variable;
-  choreograph::Output<ci::vec2> _position_b;
-
-  choreograph::Output<ci::vec2> _reference_bounce;
-  choreograph::Output<ci::vec2> _reference_slide;
-  choreograph::Timeline            _timeline;
   Timer               _timer;
+
+
+
 
  public:
   MyApp();

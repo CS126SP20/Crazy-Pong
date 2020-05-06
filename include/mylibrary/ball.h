@@ -4,6 +4,10 @@
 
 #ifndef FINALPROJECT_BALL_H
 #define FINALPROJECT_BALL_H
+#include "math.h"
+#include <cinder/gl/gl.h>
+#include <cinder/gl/draw.h>
+#include <cinder/Vector.h>
 
 #endif  // FINALPROJECT_BALL_H
 

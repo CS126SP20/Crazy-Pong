@@ -29,7 +29,6 @@
 const char kNormalFont[] = "Arial";
 
 namespace myapp  {
-
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -43,11 +42,10 @@ DECLARE_string(name);
 
 MyApp::MyApp() {
   ball.setSpeed(FLAGS_speed);
+  paused = false;
 }
 
-
 void MyApp::setup() {
-  paused = false;
   cinder::gl::enableDepthWrite();
   cinder::gl::enableDepthRead();
   left_racket.init(0.0f, 400.0f);
@@ -55,67 +53,19 @@ void MyApp::setup() {
   ball.init(kScreen_height/2, kScreen_width/2, -1.0f,
       0.0f, 30.0f, FLAGS_speed);
 
-//  Anim<float> radius;
-//  radius = 0.0f;
-//  cinder::app::timeline().apply( &radius, 10.0f, 1.5f, cinder::EaseOutCubic());
-
   if (FLAGS_crazy) {
-    // Create a procedural phrase that moves vertically on a sine wave.
-    // Procedural phrases can evaluate any function you like.
-    PhraseRef<vec2> bounce = makeProcedure<vec2>( 2.0, [] ( Time t, Time duration ) {
-       return vec2( 0, sin( easeInOutQuad(t) * 6 * M_PI ) * 100.0f );
-      //return vec2( 0,  100.0f );
-    } );
-
-
-
-    // Create a ramp phrase from the left to the right side of the window.
-    float w = (float)app::getWindowWidth();
-    float x1 = w * 0.08f;
-    float x2 = w - x1;
-    PhraseRef<vec2> slide = makeRamp( vec2( x1, 0 ), vec2( x2, 0 ), 2.0f, choreograph::EaseInOutCubic() );
-
-
-//    Output<vec2>  pingPongTarget;
-//    _timeline.apply( &pingPongTarget, slide )
-//        .finishFn( [&m = *pingPongTarget.inputPtr()] {
-//          // reverse Motion direction on finish.
-//          m.setPlaybackSpeed( m.getPlaybackSpeed() * -1 );
-//          // Start each cycle from "zero" to keep in sync with loopTarget timing.
-//          m.resetTime();
-//        } );
-
-    // Combine the slide and bounce phrases using an AccumulatePhrase.
-    // By default, the accumulation operation sums all the phrase values with an initial value.
-    float center_y = app::getWindowHeight() / 2.0f;
-    PhraseRef<vec2> bounce_and_slide = makeAccumulator( vec2( 0, center_y ), bounce, slide );
-
-    // Provide an explicit combine function.
-    // In this case, we subtract each value from the initial value.
-    PhraseRef<vec2> bounce_and_slide_negative = makeAccumulator( vec2( w, center_y ), bounce, slide, [] (const vec2 &a, const vec2 &b) {
-      return a - b;
-    } );
-
-    // Apply our Sequences to Outputs.
-    _timeline.apply( &_position_a, bounce_and_slide );
-    _timeline.apply( &_position_b, bounce_and_slide_negative );
-    _timeline.apply( &_reference_bounce, bounce );
-    _timeline.apply( &_reference_slide, slide );
-
-    // Place Outputs at initial sequence values.
-    _timeline.jumpTo( 0 );
+    distraction.init(getWindowWidth(), getWindowHeight());
   }
     _timer.start();
 }
 
 void MyApp::update() {
   if (FLAGS_crazy) {
-     Time dt = (Time)_timer.getSeconds();
-   _timer.start();
-     _timeline.step( dt );
+    distraction.move(_timer);
+    //_timer.start();
   }
-  // hit by left racket?
 
+  // hit by left racket?
   if (ball.getX() < left_racket.getX() + mylibrary::kRacket_width &&
       ball.getX() > left_racket.getX() &&
       ball.getY() < left_racket.getY() + mylibrary::kRacket_height &&
@@ -174,12 +124,7 @@ void MyApp::update() {
 void MyApp::draw() {
 
   gl::clear();
-  // vec2 center = getWindowCenter();
-
   float r = 20;
-
-//  gl::color( Color( 1, 0, 0 ) ); // red
-//  gl::drawSolidCircle( center + vec2( -r, r ), r );
 
   left_racket.draw();
   right_racket.draw();
@@ -188,26 +133,14 @@ void MyApp::draw() {
   const cinder::ivec2 size = {200, 200};
   const Color colors = Color::white();
 
-
   std::stringstream ss;
   ss<< "Score = " << left_racket.getScore() << ":" << right_racket.getScore();
 
   PrintText(ss.str(), colors, size, {center.x, center.y});
-   //PrintText(right_text, color, size, {center.x + 20, center.y});
 
-  gl::ScopedColor color( Color( CM_HSV, 0.72f, 1.0f, 1.0f ) );
-  gl::drawSolidCircle( _position_a, 30.0f );
-
-  gl::color( Color( CM_HSV, 0.96f, 1.0f, 1.0f ) );
-  gl::drawSolidCircle( _position_b, 30.0f );
-
- //  References are translated for visibility.
-  float y = app::getWindowHeight() * 0.2f;
-  gl::color( Color( CM_HSV, 0.15f, 1.0f, 1.0f ) );
-
-  gl::drawStrokedCircle( _reference_bounce() + vec2( app::getWindowWidth() * 0.08f, y ), 4.0f );
-  gl::drawStrokedCircle( _reference_slide() + vec2( 0, y ), 4.0f );
-
+  if(FLAGS_crazy) {
+    distraction.draw();
+  }
 
 }
 

@@ -3,10 +3,6 @@
 //
 
 #include "mylibrary/ball.h";
-#include "math.h"
-#include <cinder/gl/gl.h>
-#include <cinder/gl/draw.h>
-#include <cinder/Vector.h>
 
 using namespace cinder;
 
@@ -29,8 +25,8 @@ void Ball::draw() {
   vec2 center(x,y);
   //std::cout<<center<<std::endl;
   //gl::ScopedColor color( Color( CM_HSV, 0.72f, 1.0f, 1.0f ) );
-  gl::color(Color(1, 0, 0));
-
+  // gl::color(Color(1, 0, 0));
+  gl::color( Color( CM_HSV, 0.96f, 1.0f, 1.0f ) );
   gl::drawSolidCircle( center, size);
 }
 
