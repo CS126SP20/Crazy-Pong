@@ -1,9 +1,12 @@
-# Final Project
+# Crazy Pong!
 
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![docs](https://img.shields.io/badge/docs-yes-brightgreen)](docs/README.md)
 
-Read [this document](https://cliutils.gitlab.io/modern-cmake/chapters/basics/structure.html) to understand the project
-layout.
+Crazy Pong! is a two player ping pong game that supports a mode of classic ping pong and a mode of crazy pong. The crazy mode includes several visual distractions intending on confusing a player and sidetracking where the ball actually is.
 
-**Author**: Anonymous - [`example@illinois.edu`](mailto:example@illinois.edu)
+This project uses [Choreograph](https://github.com/sansumbrella/Choreograph), an animation library to put the "crazy" in **Crazy Pong!** as well as [Cinder](https://libcinder.org/), a creative coding library.
+
+
+
+**Author**: Riya Gupta - [`riyag3@illinois.edu`](mailto:riyag3@illinois.edu)
