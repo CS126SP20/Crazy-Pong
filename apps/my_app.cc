@@ -61,8 +61,8 @@ void MyApp::setup() {
 
 void MyApp::update() {
   if (FLAGS_crazy) {
-    distraction.move(_timer);
-    //_timer.start();
+    distraction.move();
+    _timer.start();
   }
 
   // hit by left racket?

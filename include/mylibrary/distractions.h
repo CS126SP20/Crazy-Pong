@@ -26,20 +26,15 @@ class Distraction {
   PhraseRef<vec2> slide;
   PhraseRef<vec2> bounce_and_slide;
   PhraseRef<vec2> bounce_and_slide_negative;
-
-
   choreograph::Output<ci::vec2> _position_a;
-  choreograph::Output<ci::vec2>  variable;
-  choreograph::Output<ci::vec2> _position_b;
-
-  choreograph::Output<ci::vec2> _reference_bounce;
-  choreograph::Output<ci::vec2> _reference_slide;
   choreograph::Timeline            _timeline;
+  cinder::Timer mytimer;
   int _width;
   int _height;
+
 
  public:
   void init(int width, int height);
   void draw();
-  void move(Timer &timer);
+  void move();
 };

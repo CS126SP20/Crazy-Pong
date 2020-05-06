@@ -3,15 +3,17 @@
 #ifndef FINALPROJECT_APPS_MYAPP_H_
 #define FINALPROJECT_APPS_MYAPP_H_
 
+#include <choreograph/Timeline.h>
 #include <cinder/app/App.h>
 #include <cinder/audio/Voice.h>
 #include <cinder/audio/audio.h>
 #include <cinder/gl/gl.h>
+
 #include <choreograph/Output.hpp>
-#include <choreograph/Timeline.h>
-#include "mylibrary/distraction.h"
-#include "mylibrary/racket.h"
+
 #include "mylibrary/ball.h"
+#include "mylibrary/distractions.h"
+#include "mylibrary/racket.h"
 
 using namespace mylibrary;
 using namespace choreograph;
@@ -39,12 +41,13 @@ class MyApp : public cinder::app::App {
   const int kScreen_height = 800;
 
 
-  Timer               _timer;
+
 
 
 
 
  public:
+  Timer               _timer;
   MyApp();
   void setup() override;
   void update() override;

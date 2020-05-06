@@ -1,7 +1,7 @@
 //
 // Created by Riya Gupta on 5/5/20.
 //
-#include "mylibrary/distraction.h"
+#include "mylibrary/distractions.h"
 using namespace choreograph;
 using namespace cinder;
 
@@ -36,36 +36,30 @@ void Distraction::init(int width, int height) {
 
   // Place Outputs at initial sequence values.
   _timeline.jumpTo( 0 );
+  mytimer.start();
 
 }
 
-void Distraction::move(Timer &timer) {
+void Distraction::move() {
   static int count = 0;
-  Time dt = (Time)timer.getSeconds();
+  Time dt = (Time)mytimer.getSeconds();
   _timeline.step(1.0 / 60.0);
 
   if (dt > 2.0f) {
     count++;
-    timer.stop();
-    bounce = makeProcedure<vec2>( 2.0, [] ( Time t, Time duration ) {
-      return vec2( 0, sin( easeInOutQuad(t) * 6 * M_PI ) * 100.0f );
-    } );
-    slide = makeRamp( vec2( _width * 0.02f, 0 ), vec2( _width - _width * 0.02f, 0 ), 2.0f, choreograph::EaseInOutCubic() );
-
+    std::cout<<count<<std::endl;
+    mytimer.stop();
 
     if (count % 2 == 0) {
-      bounce_and_slide = makeAccumulator( vec2( 0, _height/2.0f), bounce, slide );
+      _timeline.jumpTo( 0 );
       _timeline.apply(&_position_a, bounce_and_slide);
-      std::cout<<"here";
+      std::cout<<"here\n";
     } else {
-      bounce_and_slide_negative = makeAccumulator( vec2( _width, _height/2.0f ), bounce, slide, [] (const vec2 &a, const vec2 &b) {
-        return a - b;
-      } );
       _timeline.apply(&_position_a, bounce_and_slide_negative);
-      std::cout<<"there";
+      std::cout<<"there\n";
     }
-    _timeline.jumpTo( 0 );
-    timer.start();
+
+    mytimer.start();
   }
 }
 
