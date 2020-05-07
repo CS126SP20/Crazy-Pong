@@ -51,7 +51,7 @@ using std::chrono::system_clock;
 using std::string;
 
 class MyApp : public cinder::app::App {
-
+  int duration;  // duration of the game in minutes.
   Racket left_racket;
   Racket right_racket;
   Ball ball;
@@ -61,9 +61,12 @@ class MyApp : public cinder::app::App {
   Distraction distraction4;
   VoiceRef background_music;
   bool paused;
+  bool game_over = false;
   const int kScreen_width = 800;
   const int kScreen_height = 800;
 
+ private:
+   void drawGameOver();
  public:
   Timer _timer;
   MyApp();

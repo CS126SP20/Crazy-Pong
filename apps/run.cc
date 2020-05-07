@@ -21,6 +21,7 @@ const int kHeight = 800;
 
 DEFINE_bool(crazy, false, "mode of the game");
 DEFINE_uint64(speed, 50, "the speed of the ball");
+DEFINE_uint64(duration, 1, "the duration of one game");
 DEFINE_string(name, "riya", "the name of the player");
 
 void ParseArgs(vector<string>* args) {
