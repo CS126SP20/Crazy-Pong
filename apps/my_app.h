@@ -60,6 +60,7 @@ class MyApp : public cinder::app::App {
   Distraction distraction2;
   Distraction distraction3;
   Distraction distraction4;
+  // Music derived from Mii Theme Music (Wii)
   VoiceRef background_music;
   bool paused;
   bool game_over = false;

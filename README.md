@@ -3,7 +3,7 @@
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 [![docs](https://img.shields.io/badge/docs-yes-brightgreen)](docs/README.md)
 
-Crazy Pong! is a two player ping pong game that supports a mode of classic ping pong and a mode of "crazy" ping pong. The crazy mode includes several visual distractions intending on confusing a player and sidetracking them from where the real ball actually is.
+Crazy Pong! is a two player ping pong game that supports a mode of classic ping pong and a mode of "crazy" ping pong. The crazy mode includes several visual distractions intending on confusing a player and sidetracking them from where the real ball actually is. Enjoy playing!
 
 ---
 **DEPENDENCIES**
@@ -30,7 +30,10 @@ Choreograph Steps:
 | --duration         | int, sets time of the game in minutes                                                 |
 | --speed            | int, sets the speed of the ball                                                       |
 
-
+| Player Commands | up       | down       |
+|-----------------|----------|------------|
+| Right Player    | up arrow | down arrow |
+| Left Player     | w        | s          |
 
 
 **Author**: Riya Gupta - [`riyag3@illinois.edu`](mailto:riyag3@illinois.edu)
