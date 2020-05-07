@@ -2,6 +2,8 @@
 // Created by Riya Gupta on 5/5/20.
 //
 #include "mylibrary/distractions.h"
+#include "mylibrary/collision.h"
+
 using namespace choreograph;
 using namespace cinder;
 
@@ -58,7 +60,6 @@ void Distraction::move() {
     } else {
       _timeline.apply(&_position_a, bounce_and_slide_negative);
     }
-
     mytimer.start();
   }
 }
@@ -66,5 +67,4 @@ void Distraction::move() {
 void Distraction::draw() {
   gl::color( Color( CM_HSV, 0.96f, 1.0f, 1.0f ) );
   gl::drawSolidCircle( _position_a, 30.0f );
-
 }

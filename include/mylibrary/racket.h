@@ -3,9 +3,7 @@
 //
 
 #ifndef FINALPROJECT_RACKET_H
-
 #include <cinder/gl/gl.h>
-
 #define FINALPROJECT_RACKET_H
 
 using namespace cinder;

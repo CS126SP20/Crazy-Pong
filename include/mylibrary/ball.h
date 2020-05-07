@@ -9,7 +9,7 @@
 #include <cinder/gl/draw.h>
 #include <cinder/Vector.h>
 
-#endif  // FINALPROJECT_BALL_H
+
 
 class Ball {
  private:
@@ -38,3 +38,4 @@ class Ball {
   void setY(float y);
   void setSpeed(int speed);
 };
+#endif  // FINALPROJECT_BALL_H

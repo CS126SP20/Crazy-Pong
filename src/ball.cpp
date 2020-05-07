@@ -10,7 +10,8 @@ Ball::Ball() {
   
 }
 
-void Ball::Init(float ball_x, float ball_y, float ball_dir_x, float ball_dir_y, float ball_size, int ball_speed ) {
+void Ball::Init(float ball_x, float ball_y, float ball_dir_x,
+    float ball_dir_y, float ball_size, int ball_speed ) {
   x = ball_x;
   y = ball_y;
   dir_x = ball_dir_x;
@@ -40,6 +41,3 @@ float Ball::getY() const { return y; }
 float Ball::getDirX() const { return dir_x; }
 float Ball::getDirY() const { return dir_y; }
 float Ball::getSpeed() const { return speed; }
-
-
-

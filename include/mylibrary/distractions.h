@@ -16,8 +16,6 @@
 #include <choreograph/Timeline.h>
 #include <cinder/timer.h>
 
-#endif  // FINALPROJECT_DISTRACTIONS_H
-
 using namespace choreograph;
 using namespace cinder;
 class Distraction {
@@ -38,3 +36,4 @@ class Distraction {
   void draw();
   void move();
 };
+#endif  // FINALPROJECT_DISTRACTIONS_H

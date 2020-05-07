@@ -21,7 +21,6 @@ void Racket::Draw() {
 
 void Racket::MoveUp() {
   y -= kRacket_speed;
-
 }
 
 void Racket::MoveDown() {
