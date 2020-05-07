@@ -1,15 +1,12 @@
 //
 // Created by Riya Gupta on 4/27/20.
 //
-
 #ifndef FINALPROJECT_BALL_H
 #define FINALPROJECT_BALL_H
 #include "math.h"
 #include <cinder/gl/gl.h>
 #include <cinder/gl/draw.h>
 #include <cinder/Vector.h>
-
-
 
 class Ball {
  private:
@@ -21,17 +18,14 @@ class Ball {
   int speed;
 
  public:
-  Ball();
   void Init(float ball_x, float ball_y, float ball_dir_x,
       float ball_dir_y, float ball_size, int ball_speed);
   void Draw();
   void Move();
-  float getSize() const;
   float getX() const;
   float getY() const;
   float getDirX() const;
   float getDirY() const;
-  float getSpeed() const;
   void setDirX(float dirX);
   void setDirY(float dirY);
   void setX(float x);

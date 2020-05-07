@@ -9,9 +9,8 @@ bool collision::DidBallHitRacket(Ball& ball, Racket& left, Racket& right) {
       ball.getX() >= left.getX() &&
       ball.getY() <= left.getY() + mylibrary::kRacket_height &&
       ball.getY() >= left.getY()) {
-    std::cout << "Hit left racket\n";
-    // set fly direction depending on where it hit the racket
-    // (t is 0.5 if hit at top, 0 at center, -0.5 at bottom)
+    // set the ball direction depending on where racket collision occurred
+    // t = 0.5 if collision at top, 0 at center, -0.5 at bottom
     float t = ((ball.getY() - left.getY()) / mylibrary::kRacket_height) - 0.5f;
     ball.setDirX(fabs(ball.getDirX())); // force value positive
     ball.setDirY(t);
@@ -23,9 +22,7 @@ bool collision::DidBallHitRacket(Ball& ball, Racket& left, Racket& right) {
       ball.getX() <= right.getX() + mylibrary::kRacket_width &&
       ball.getY() <= right.getY() + mylibrary::kRacket_height &&
       ball.getY() >= right.getY()) {
-    std::cout << "Hit right racket\n";
-    // set fly direction depending on where it hit the racket
-    // (t is 0.5 if hit at top, 0 at center, -0.5 at bottom)
+    // set the ball direction depending on where racket collision occurred
     float t = ((ball.getY() - right.getY()) /
                mylibrary::kRacket_height) - 0.5f;
     ball.setDirX(-fabs(ball.getDirX())); // force value negative
@@ -40,7 +37,6 @@ bool collision::DidBallHitWall(Ball& ball, Racket& left, Racket& right,
     int width, int height){
     // hit left wall?
     if (ball.getX() < 0) {
-      // std::cout << "Hit left wall\n";
       right.setScore(right.getScore() + 1);
       ball.setX( width / 2);
       ball.setY(height / 2);
@@ -51,7 +47,6 @@ bool collision::DidBallHitWall(Ball& ball, Racket& left, Racket& right,
 
     // hit right wall?
     if (ball.getX() > width) {
-      // std::cout << "Hit right wall\n";
       left.setScore(left.getScore() + 1);
       ball.setX(width / 2);
       ball.setY( height / 2);
@@ -73,4 +68,3 @@ bool collision::DidBallHitWall(Ball& ball, Racket& left, Racket& right,
     }
     return false;
 }
-

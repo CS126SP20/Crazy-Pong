@@ -11,7 +11,7 @@ using namespace choreograph;
 using namespace cinder;
 
 
-void Distraction::compute_distraction() {
+void Distraction::ComputeDistraction() {
   srand(time(NULL));
 
   bounce = makeProcedure<vec2>(2.0, [](Time t, Time duration) {
@@ -20,7 +20,6 @@ void Distraction::compute_distraction() {
 
   // Create a ramp phrase from the left to the right side of the window.
   float x1 = _width * 0.02f;
-  //float x1 = rand() % _width / 2 + 1;
   float x2 = _width - x1;
   int y = rand() % _height / 2 + 1;
   slide =
@@ -31,7 +30,8 @@ void Distraction::compute_distraction() {
   // By default, the accumulation operation sums all the phrase values
   // with an initial value.
   float center_y = _height / 2.0f;
-  bounce_and_slide = makeAccumulator(vec2(0, center_y), bounce, slide);
+  bounce_and_slide = makeAccumulator(vec2(0, center_y),
+      bounce, slide);
 
   // Provide an explicit combine function.
   // In this case, we subtract each value from the initial value.
@@ -39,7 +39,6 @@ void Distraction::compute_distraction() {
       makeAccumulator(vec2(_width, center_y), bounce, slide,
                       [](const vec2 &a, const vec2 &b) { return a - b; });
 }
-
 
 void Distraction::init(int width, int height) {
   // Create a procedural phrase that moves vertically on a sine wave.
@@ -49,7 +48,7 @@ void Distraction::init(int width, int height) {
 
   std::chrono::milliseconds timespan(rand()%1000 + 1); // or whatever
   std::this_thread::sleep_for(timespan);
-  compute_distraction();
+  ComputeDistraction();
 
   // Apply our Sequences to Outputs.
   _timeline.apply( &_position_a, bounce_and_slide );
@@ -57,7 +56,6 @@ void Distraction::init(int width, int height) {
   // Place Outputs at initial sequence values.
   _timeline.jumpTo( 0 );
   mytimer.start();
-
 }
 
 void Distraction::move() {
@@ -69,7 +67,7 @@ void Distraction::move() {
     count++;
     mytimer.stop();
 
-    compute_distraction();
+    ComputeDistraction();
 
     if (count % 2 == 0) {
       _timeline.jumpTo( 0 );

@@ -29,6 +29,7 @@ Week 1:
 Week 2:
 * Incorporate abstract movement for ball using Choreograph
 * Create different levels of rigor 
+    * Based on speed and distractions
 
 Week 3:
 * Add any additional tests

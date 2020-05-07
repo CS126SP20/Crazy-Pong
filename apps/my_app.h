@@ -59,7 +59,7 @@ class MyApp : public cinder::app::App {
   Distraction distraction2;
   Distraction distraction3;
   Distraction distraction4;
-
+  VoiceRef background_music;
   bool paused;
   const int kScreen_width = 800;
   const int kScreen_height = 800;

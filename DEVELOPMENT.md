@@ -10,6 +10,13 @@
     * Created distraction class for crazy mode
         * Added logic for looping Choreograph animation
         * Added its initialization, move, and draw methods
+    * Tested the functionality of the game
+        * Added tests for collisions with both rackets 
+        * Added tests for collisions with both balls
+        * Added tests for scoring
+    * Added logic for multiple distractions that move randomly
+        * Changed Choreograph x and y coordinates of each distraction
+    * Added background music
     
 
 

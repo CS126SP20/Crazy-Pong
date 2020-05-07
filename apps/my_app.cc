@@ -12,6 +12,8 @@ using namespace mylibrary;
 using cinder::app::KeyEvent;
 using namespace choreograph;
 using namespace collision;
+using cinder::app::KeyEvent;
+using cinder::audio::VoiceRef;
 
 DECLARE_bool(crazy);
 DECLARE_uint64(speed);
@@ -25,6 +27,10 @@ MyApp::MyApp() {
 void MyApp::setup() {
   cinder::gl::enableDepthWrite();
   cinder::gl::enableDepthRead();
+  cinder::audio::SourceFileRef source_background = cinder::audio::load
+      (cinder::app::loadAsset("background.mp3"));
+  background_music = cinder::audio::Voice::create(source_background);
+  background_music -> start();
   left_racket.Init(0.0f, 400.0f);
   right_racket.Init(800 - kRacket_width - 0.0f, 400.0f);
   ball.Init(kScreen_height/2, kScreen_width/2, -1.0f,
@@ -47,21 +53,14 @@ void MyApp::update() {
     distraction4.move();
     _timer.start();
   }
-
-
   DidBallHitRacket(ball, left_racket, right_racket);
-
-
-  DidBallHitWall(ball, left_racket, right_racket, getWindowWidth(), getWindowHeight() );
-
+  DidBallHitWall(ball, left_racket, right_racket,
+      getWindowWidth(), getWindowHeight() );
   ball.Move();
 }
 
 void MyApp::draw() {
-
   gl::clear();
-  float r = 20;
-
   left_racket.Draw();
   right_racket.Draw();
   ball.Draw();
@@ -123,7 +122,8 @@ void MyApp::keyDown(KeyEvent event) {
 }
 
 template <typename C>
-void MyApp::PrintText(const string& text, const C& color, const cinder::ivec2& size,
+void MyApp::PrintText(const string& text, const C& color,
+    const cinder::ivec2& size,
                const cinder::vec2& loc) {
   cinder::gl::color(color);
 
