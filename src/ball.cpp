@@ -5,6 +5,16 @@
 
 using namespace cinder;
 
+float Ball::getX() const { return x; }
+void Ball::setX(float x) { Ball::x = x; }
+void Ball::setY(float y) { Ball::y = y; }
+void Ball::setSpeed(int speed) { Ball::speed = speed; }
+void Ball::setDirX(float dirX) { dir_x = dirX; }
+void Ball::setDirY(float dirY) { dir_y = dirY; }
+float Ball::getY() const { return y; }
+float Ball::getDirX() const { return dir_x; }
+float Ball::getDirY() const { return dir_y; }
+
 void Ball::Init(float ball_x, float ball_y, float ball_dir_x,
     float ball_dir_y, float ball_size, int ball_speed ) {
   x = ball_x;
@@ -25,12 +35,3 @@ void Ball::Move() {
   x += dir_x * speed;
   y += dir_y * speed;
 }
-float Ball::getX() const { return x; }
-void Ball::setX(float x) { Ball::x = x; }
-void Ball::setY(float y) { Ball::y = y; }
-void Ball::setSpeed(int speed) { Ball::speed = speed; }
-void Ball::setDirX(float dirX) { dir_x = dirX; }
-void Ball::setDirY(float dirY) { dir_y = dirY; }
-float Ball::getY() const { return y; }
-float Ball::getDirX() const { return dir_x; }
-float Ball::getDirY() const { return dir_y; }

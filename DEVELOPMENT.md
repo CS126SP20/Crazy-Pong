@@ -17,6 +17,9 @@
     * Added logic for multiple distractions that move randomly
         * Changed Choreograph x and y coordinates of each distraction
     * Added background music
+    * Added timer countdown for game
+    * Added game over screen
+    * Displayed winning player
     
 
 

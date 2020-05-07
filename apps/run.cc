@@ -1,4 +1,4 @@
-// Copyright (c) 2020 [Your Name]. All rights reserved.
+// Copyright (c) 2020 [Riya Gupta]. All rights reserved.
 
 #include <cinder/app/App.h>
 #include <cstdlib>
@@ -22,7 +22,6 @@ const int kHeight = 800;
 DEFINE_bool(crazy, false, "mode of the game");
 DEFINE_uint64(speed, 50, "the speed of the ball");
 DEFINE_uint64(duration, 1, "the duration of one game");
-DEFINE_string(name, "riya", "the name of the player");
 
 void ParseArgs(vector<string>* args) {
   gflags::SetUsageMessage(

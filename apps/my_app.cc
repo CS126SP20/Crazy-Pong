@@ -2,9 +2,8 @@
 
 #include "my_app.h"
 
-const char kNormalFont[] = "Arial";
-
 namespace myapp  {
+
 using namespace ci;
 using namespace ci::app;
 using namespace std;
@@ -18,7 +17,6 @@ using cinder::audio::VoiceRef;
 DECLARE_bool(crazy);
 DECLARE_uint64(speed);
 DECLARE_uint64(duration);
-DECLARE_string(name);
 
 MyApp::MyApp() {
   ball.setSpeed(FLAGS_speed);
@@ -33,10 +31,12 @@ void MyApp::setup() {
       (cinder::app::loadAsset("background.mp3"));
   background_music = cinder::audio::Voice::create(source_background);
   background_music -> start();
-  left_racket.Init(0.0f, 400.0f);
-  right_racket.Init(800 - kRacket_width - 0.0f, 400.0f);
-  ball.Init(kScreen_height/2, kScreen_width/2, -1.0f,
-      0.0f, 30.0f, FLAGS_speed);
+  left_racket.Init(0.0f, kScreen_height/kHalf);
+  right_racket.Init(kScreen_width - kRacket_width - 0.0f,
+      kScreen_height/kHalf);
+  ball.Init(kScreen_height/kHalf, kScreen_width/kHalf,
+      -1.0f,
+      0.0f, kDefault_ball_size, FLAGS_speed);
 
   if (FLAGS_crazy) {
     distraction.init(getWindowWidth(), getWindowHeight());
@@ -70,8 +70,8 @@ void MyApp::draw() {
 
   gl::clear();
 
-  if (_timer.getSeconds() > duration * 10) {
-     drawGameOver();
+  if (_timer.getSeconds() > duration * kMin_in_sec) {
+     DrawGameOver();
      return;
   }
 
@@ -79,12 +79,13 @@ void MyApp::draw() {
   right_racket.Draw();
   ball.Draw();
   const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {250, 100};
+  const cinder::ivec2 size = {300, 100};
   const Color colors = Color::white();
 
   std::stringstream ss;
-  int remaining_time = duration * 60 - _timer.getSeconds();
-  ss<< "Time Left: "<<remaining_time<< " sec\n"<<  "Score = " << left_racket.getScore() << ":" << right_racket.getScore() ;
+  int remaining_time = duration * kMin_in_sec - _timer.getSeconds();
+  ss<< "Time Left: "<<remaining_time<< " sec\n"<<  "Left = " <<
+  left_racket.getScore() << ": Right = " << right_racket.getScore() ;
 
   PrintText(ss.str(), colors, size, {center.x, 50});
 
@@ -119,20 +120,6 @@ void MyApp::keyDown(KeyEvent event) {
           left_racket.MoveDown();
         break;
       }
-      case KeyEvent::KEY_p: {
-//        paused = !paused;
-//
-//        if (paused) {
-//          last_pause_time  = system_clock::now();
-//        } else {
-//          last_intact_time_ += system_clock::now() - last_pause_time_;
-//        }
-        break;
-      }
-      case KeyEvent::KEY_r: {
-        // ResetGame();
-        break;
-      }
     }
 }
 
@@ -144,28 +131,39 @@ void MyApp::PrintText(const string& text, const C& color,
 
   auto box = TextBox()
       .alignment(TextBox::CENTER)
-      .font(cinder::Font(kNormalFont, 30))
+      .font(cinder::Font(kNormalFont, 20))
       .size(size)
       .color(color)
       .backgroundColor(ColorA(0, 0, 1, 0))
       .text(text);
 
   const auto box_size = box.getSize();
-  const cinder::vec2 locp = {loc.x - box_size.x / 2, loc.y - box_size.y / 2};
+  const cinder::vec2 locp = {loc.x - box_size.x / kHalf,
+                             loc.y - box_size.y / kHalf};
   const auto surface = box.render();
   const auto texture = cinder::gl::Texture::create(surface);
   cinder::gl::draw(texture, locp);
 }
 
-void MyApp::drawGameOver() {
+void MyApp::DrawGameOver() {
   const cinder::vec2 center = getWindowCenter();
-  const cinder::ivec2 size = {500, 50};
+  const cinder::ivec2 size = {500, 500};
   const Color color = Color::white();
 
   _timer.stop();
   game_over = true;
   std::stringstream ss;
-  ss<< "Game Over! " << "Score = " << left_racket.getScore() << ":" << right_racket.getScore();
+  ss<< "Game Over!" << " Congrats ";
+
+  if (left_racket.getScore() > right_racket.getScore()) {
+    ss<<"Left Player! You won " << left_racket.getScore()
+      << ":"<< right_racket.getScore();
+  } else if (right_racket.getScore() > left_racket.getScore()) {
+    ss<<"Right Player! You won" << right_racket.getScore()
+      << ":"<< left_racket.getScore();
+  } else {
+    ss<<"both players! It's a tie";
+  }
   PrintText(ss.str(), color, size, center);
 }
 

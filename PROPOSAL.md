@@ -4,7 +4,7 @@ Author: Riya Gupta
 
 ---
 **GOAL:**
-I want to recreate the game of Ping Pong with a special twist. There will be an option to play a regular game of ping pong; however, the "crazy" in **Crazy Pong!** will come from several animated distractions. This will make the game more interesting!
+I want to recreate a multiplayer game of Ping Pong with a special twist. There will be an option to play a regular game of ping pong; however, the "crazy" in **Crazy Pong!** will come from several animated distractions. This will make the game more interesting!
 
 **WHY:** 
 
@@ -32,9 +32,8 @@ Week 2:
     * Based on speed and distractions
 
 Week 3:
-* Add any additional tests
-* Add a leaderboard
-* Add special effects and music
+* Add crazy mode special effects
+* Add music
 
 **STRETCH GOALS:**
 If I were to finish this project early, I would work on adding 3D graphics to the game.
