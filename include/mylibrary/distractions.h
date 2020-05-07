@@ -30,7 +30,8 @@ class Distraction {
   int _width;
   int _height;
 
-
+ private:
+  void compute_distraction();
  public:
   void init(int width, int height);
   void draw();

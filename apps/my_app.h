@@ -56,6 +56,10 @@ class MyApp : public cinder::app::App {
   Racket right_racket;
   Ball ball;
   Distraction distraction;
+  Distraction distraction2;
+  Distraction distraction3;
+  Distraction distraction4;
+
   bool paused;
   const int kScreen_width = 800;
   const int kScreen_height = 800;

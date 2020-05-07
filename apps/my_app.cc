@@ -32,6 +32,9 @@ void MyApp::setup() {
 
   if (FLAGS_crazy) {
     distraction.init(getWindowWidth(), getWindowHeight());
+    distraction2.init(getWindowWidth(), getWindowHeight());
+    distraction3.init(getWindowWidth(), getWindowHeight());
+    distraction4.init(getWindowWidth(), getWindowHeight());
   }
     _timer.start();
 }
@@ -39,6 +42,9 @@ void MyApp::setup() {
 void MyApp::update() {
   if (FLAGS_crazy) {
     distraction.move();
+    distraction2.move();
+    distraction3.move();
+    distraction4.move();
     _timer.start();
   }
 
@@ -70,6 +76,9 @@ void MyApp::draw() {
 
   if(FLAGS_crazy) {
     distraction.draw();
+    distraction2.draw();
+    distraction3.draw();
+    distraction4.draw();
   }
 
 }
